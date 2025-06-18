@@ -104,7 +104,10 @@ void loop() {
     receivedData.trim();
 
     String message_warning = getCurrentTime() + " " + receivedData;
+
+    delay(5000);
     writeToFile("/test.txt", message_warning.c_str());
+
     if (wifiConnected && Blynk.connected()) {
       sendAlert(message_warning);
     } else {
@@ -116,7 +119,12 @@ void loop() {
     Serial.println("'");
 
     receivedData = "";
-    // readFromFile("/test.txt");
+
+    // Xóa toàn bộ dữ liệu còn lại trong buffer (dọn sạch hàng đợi)
+    while (Serial2.available()) {
+      Serial2.read(); // đọc và bỏ
+    }
+    
   }
 
 }
@@ -180,7 +188,7 @@ void writeToFile(const char* filename, const char* content) {
     Serial.print(filename);
     Serial.println(" để ghi.");
   }
-  delay(5000);
+  
 }
 
 // Hàm đọc nội dung từ file
