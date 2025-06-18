@@ -18,22 +18,22 @@
 #define RX_PIN 16 // chân RX2 
 #define TX_PIN 17 // chân TX2
 
-#define SD_CS 5  // Chân CS kết nối với SD Card
+#define SD_CS 5  // Chân CS 
+// Chân Miso    19
+// Chân Mosi    23
+// Chân SCK     18
 
 File myFile;
 
 #define BAUDRATE 9600
-#define TIME_ZONE_OFFSET 7 * 3600 // GMT+7
 
 // WiFi
 char ssid[] = "xieop"; // Thay tên mạng vào
 char pass[] = "pppppppp"; // Thay cả pass luôn nhá
 
 bool wifiConnected = false; // Này là trạng thái wifi
-unsigned long lastSyncTime = 0;
 
 void sendAlert(String);
-String getTimeStamp();
 void checkWiFiConnection();
 void blinkLED(int times, int duration);
 String getCurrentTime();
@@ -48,22 +48,22 @@ void setup() {
   digitalWrite(LED_PIN, LOW);
 
   // Kết nối WiFi với timeout
-  Serial.println("\nĐang kết nối WiFi...");
+  Serial.println("\nDang ket noi wifi...");
   WiFi.begin(ssid, pass);
   
   unsigned long startAttemptTime = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 10000) {
     Serial.print(".");
-    blinkLED(1, 200); // Nhấp nháy LED khi đang kết nối
+    blinkLED(1, 200); 
     delay(500);
   }
 
   if (WiFi.status() == WL_CONNECTED) {
     wifiConnected = true;
-    Serial.println("\nKết nối WiFi thành công!");
+    Serial.println("\nKet noi wifi thanh cong");
     Serial.print("IP: ");
     Serial.println(WiFi.localIP());
-    digitalWrite(LED_PIN, HIGH); // Sáng đèn khi kết nối thành công
+    digitalWrite(LED_PIN, HIGH); 
     delay(1000);
     digitalWrite(LED_PIN, LOW);
     
@@ -71,23 +71,23 @@ void setup() {
     Blynk.config(BLYNK_AUTH_TOKEN);
     Blynk.connect(3000); // Timeout 3 giây
     if (Blynk.connected()) {
-      Serial.println("Kết nối Blynk thành công!");
+      Serial.println("Ket noi blynk thanh cong");
     } else {
-      Serial.println("Lỗi kết nối Blynk!");
+      Serial.println("Loi ket noi thanh cong");
     }
   } else {
-    Serial.println("\nLỗi kết nối WiFi!");
-    blinkLED(5, 200); // Báo lỗi bằng LED
+    Serial.println("\nLoi ket noi wifi");
+    blinkLED(5, 200); 
   }
-  Blynk.sendInternal("rtc", "sync"); // Yêu cầu đồng bộ thời gian
+  Blynk.sendInternal("rtc", "sync"); // Đồng bộ thời gian
 
-  Serial.print("Đang khởi tạo thẻ SD...");
+  Serial.print("Dang khoi tao the SD");
 
   if (!SD.begin(SD_CS)) {
-    Serial.println("Lỗi: không thể khởi tạo thẻ SD!");
+    Serial.println("Khong the khoi tao the SD");
     return;
   }
-  Serial.println("Đã khởi tạo thẻ SD thành công.");
+  Serial.println("Khoi tao SD thanh cong");
 
 }
 
@@ -108,15 +108,15 @@ void loop() {
     if (wifiConnected && Blynk.connected()) {
       sendAlert(message_warning);
     } else {
-      Serial.println("Không thể gửi cảnh báo - Mất kết nối!");
+      Serial.println("Khong gui duoc canh bao - Mat ket noi");
     }
   
-    Serial.print("Received from STM32: '");
+    Serial.print("Chuoi nhan tu STM32: '");
     Serial.print(receivedData);
     Serial.println("'");
 
-    receivedData = ""; // Reset biến nhận dữ liệu
-    readFromFile("/test.txt");
+    receivedData = "";
+    // readFromFile("/test.txt");
   }
 
 }
@@ -132,20 +132,16 @@ void sendAlert(String message_warning) {
   digitalWrite(LED_PIN, LOW);
 }
 
-String getTimeStamp() {
-  return String(millis() / 1000) + "s";
-}
-
 void checkWiFiConnection() {
   static unsigned long lastCheck = 0;
-  if (millis() - lastCheck > 5000) { // Kiểm tra mỗi 5s
+  if (millis() - lastCheck > 5000) { // Kiểm tra wifi sau 5s
     lastCheck = millis();
     if (WiFi.status() != WL_CONNECTED) {
       wifiConnected = false;
-      Serial.println("Mất kết nối WiFi!");
+      Serial.println("Mat ket noi wifi");
       blinkLED(3, 200);
     } else if (!Blynk.connected()) {
-      Serial.println("Mất kết nối Blynk!");
+      Serial.println("Mat ket noi Blynk!");
       Blynk.connect();
     }
   }
@@ -160,7 +156,7 @@ void blinkLED(int times, int duration) {
   }
 }
 
-// Hàm lấy thời gian hiện tại (định dạng HH:MM:SS)
+// Lấy thời gian hiện tại
 String getCurrentTime() {
   time_t localTime = now();
 
@@ -184,6 +180,7 @@ void writeToFile(const char* filename, const char* content) {
     Serial.print(filename);
     Serial.println(" để ghi.");
   }
+  delay(5000);
 }
 
 // Hàm đọc nội dung từ file
