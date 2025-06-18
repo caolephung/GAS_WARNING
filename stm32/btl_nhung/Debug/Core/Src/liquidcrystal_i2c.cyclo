@@ -1,0 +1,15 @@
+../Core/Src/liquidcrystal_i2c.c:17:6:HD44780_Init	3
+../Core/Src/liquidcrystal_i2c.c:39:6:HD44780_Clear	1
+../Core/Src/liquidcrystal_i2c.c:44:6:HD44780_Home	1
+../Core/Src/liquidcrystal_i2c.c:49:6:HD44780_Display	1
+../Core/Src/liquidcrystal_i2c.c:54:6:HD44780_NoDisplay	1
+../Core/Src/liquidcrystal_i2c.c:59:6:HD44780_SetCursor	2
+../Core/Src/liquidcrystal_i2c.c:65:6:HD44780_PrintStr	2
+../Core/Src/liquidcrystal_i2c.c:69:6:HD44780_ScrollDisplayLeft	1
+../Core/Src/liquidcrystal_i2c.c:73:13:SendCommand	1
+../Core/Src/liquidcrystal_i2c.c:77:13:SendChar	1
+../Core/Src/liquidcrystal_i2c.c:81:13:Send	1
+../Core/Src/liquidcrystal_i2c.c:86:13:Write4Bits	1
+../Core/Src/liquidcrystal_i2c.c:91:13:ExpanderWrite	5
+../Core/Src/liquidcrystal_i2c.c:109:13:PulseEnable	1
+../Core/Src/liquidcrystal_i2c.c:116:13:DelayUS	2
